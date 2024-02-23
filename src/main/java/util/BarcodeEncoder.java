@@ -1,29 +1,23 @@
 package util;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class BarcodeEncoder {
-    static File path = new File("first2.PNG");
-    static Image image;
+    private Image image;
 
-    static {
-        try {
-            image = ImageIO.read(path);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public BarcodeEncoder(String imagePath) throws IOException {
+        loadImage(imagePath);
     }
 
-    public BarcodeEncoder() throws IOException {
-        int imageWidth = image.getWidth(null);
-        int imageHeight = image.getHeight(null);
-        System.out.println("Image Width: " + imageWidth + " Image Height: " + imageHeight);
+    private void loadImage(String imagePath) throws IOException {
+        this.image = ImageIO.read(new File(imagePath));
     }
 
-    public static void main(String[] args) throws IOException {
+    public void encodeBarcode() {
+        // Placeholder for barcode encoding logic
         int imageWidth = image.getWidth(null);
         int imageHeight = image.getHeight(null);
         System.out.println("Image Width: " + imageWidth + " Image Height: " + imageHeight);

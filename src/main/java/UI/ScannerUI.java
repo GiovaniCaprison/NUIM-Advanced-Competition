@@ -1,59 +1,49 @@
 package UI;
 
-import com.github.sarxos.webcam.*;
+import com.github.sarxos.webcam.WebcamPanel;
 import util.BarcodeEncoder;
+import util.BarcodeScanner;
+import util.CaptureImage;
 
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
 
-
-public class ScannerUI extends JFrame{
-    private static final Webcam webcam = Webcam.getDefault();
-
+public class ScannerUI extends JFrame {
     private JPanel MainPanel;
     private JButton takePictureButton;
+    private BarcodeScanner scanner;
 
     public ScannerUI() {
-        takePictureButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                try {
-                    ImageIO.write(webcam.getImage(), "PNG", new File("first2.PNG"));
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                try {
-                    new BarcodeEncoder();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
+        scanner = new BarcodeScanner();
+        setupUI();
     }
 
-    public static void main(String[] args) throws InterruptedException{
-        webcam.setViewSize(WebcamResolution.VGA.getSize());
-        WebcamPanel panel = new WebcamPanel(webcam);
-        panel.setImageSizeDisplayed(true);
+    private void setupUI() {
 
-        panel.setBackground(Color.YELLOW);
-        panel.setMirrored(false);
+
+        WebcamPanel webcamPanel = new WebcamPanel(scanner.getWebcam());
         JFrame frame = new JFrame("ScannerUI");
+        frame.add(MainPanel).isBackgroundSet();
+        frame.add(webcamPanel, BorderLayout.SOUTH);
 
-        frame.add(new ScannerUI().MainPanel).isBackgroundSet();
-        frame.add(panel, BorderLayout.SOUTH);
+        takePictureButton.addActionListener(e -> {
+            try {
+                BufferedImage image = CaptureImage.captureImage(scanner);
+                String filePath = "first2.PNG";
+                CaptureImage.saveImage(image, filePath);
+                new BarcodeEncoder(filePath).encodeBarcode();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                // Consider better error handling
+            }
+        });
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.repaint();
         frame.pack();
         frame.setVisible(true);
+    }
 
-
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(ScannerUI::new);
     }
 }
