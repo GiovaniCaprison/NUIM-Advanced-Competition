@@ -7,6 +7,7 @@ import util.CaptureImage;
 import javax.swing.*;
 import java.awt.*;
 
+// Robert Gontaru
 public class ScannerUI extends JFrame {
 
     private JPanel MainPanel;

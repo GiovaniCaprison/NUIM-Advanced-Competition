@@ -7,8 +7,8 @@ public class CaptureImage {
 
     public static void captureImage(BarcodeScanner scanner) throws IOException {
         BufferedImage image = scanner.getWebcam().getImage();
-        saveImage(image);
+        transporterToBarcodeDecoding(image);
     }
 
-    public static void saveImage(BufferedImage image) throws IOException { new BarcodeDecodingLaunchPoint(image); }
+    public static void transporterToBarcodeDecoding(BufferedImage image) throws IOException { new BarcodeDecodingLaunchPoint(image); }
 }

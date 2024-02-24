@@ -1,19 +1,21 @@
 package util;
 
-import imageProcessing.ImagePreprocessing;
+import imagePreProcessing.*;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class BarcodeDecodingLaunchPoint {
 
     public BarcodeDecodingLaunchPoint(BufferedImage image) throws IOException {
         BufferedImage processedImage = preprocessImage(image);
-        // Continue with barcode decoding using the processedImage
+        ImageIO.write(processedImage, "png", new File("processedImage.png"));
     }
 
-    public BufferedImage preprocessImage(BufferedImage image) {
-        BufferedImage grayscaleImage = ImagePreprocessing.toGrayscale(image);
-        return ImagePreprocessing.applyBinarization(grayscaleImage, 128);
-        // Add additional preprocessing steps as needed
+    private BufferedImage preprocessImage(BufferedImage image) {
+        OtsuBinarizerTechnique binarizer = new OtsuBinarizerTechnique();
+        return binarizer.binarize(image);
     }
 }
