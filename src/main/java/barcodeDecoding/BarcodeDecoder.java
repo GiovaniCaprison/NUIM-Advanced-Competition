@@ -1,12 +1,14 @@
 package barcodeDecoding;
 
 import java.awt.image.BufferedImage;
+
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
 public class BarcodeDecoder {
     public String getDecodedBarcode(BufferedImage image) {
+        int i = 0;
         do{
             try{
                 LuminanceSource source = new BufferedImageLuminanceSource(image);
@@ -19,7 +21,7 @@ public class BarcodeDecoder {
             } catch (NotFoundException e){
                 System.out.println("Result Library: " + e);
             }
-        } while(true);
+        } while(i++ < 50);
         return null;
     }
 }
