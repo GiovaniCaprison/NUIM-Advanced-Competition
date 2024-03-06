@@ -21,9 +21,25 @@ public class ScannerUI extends JFrame {
 
     private void setupUI() {
         WebcamPanel webcamPanel = new WebcamPanel(scanner.getWebcam());
+        webcamPanel.setLayout(new BorderLayout());
+
+        // Create an instance of OverlayPanel
+        OverlayPanel overlay = new OverlayPanel();
+        overlay.setPreferredSize(webcamPanel.getPreferredSize());
+
+        // Create a JLayeredPane to manage the overlay
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setPreferredSize(webcamPanel.getPreferredSize());
+
+        // Add both the webcam panel and the overlay panel to the layered pane
+        webcamPanel.setBounds(0, 0, webcamPanel.getPreferredSize().width, webcamPanel.getPreferredSize().height);
+        overlay.setBounds(0, 0, webcamPanel.getPreferredSize().width, webcamPanel.getPreferredSize().height);
+        layeredPane.add(webcamPanel, Integer.valueOf(1));
+        layeredPane.add(overlay, Integer.valueOf(2));
+
         JFrame frame = new JFrame("ScannerUI");
         frame.add(MainPanel).isBackgroundSet();
-        frame.add(webcamPanel, BorderLayout.SOUTH);
+        frame.add(layeredPane, BorderLayout.SOUTH); // Use the layered pane
 
         takePictureButton.addActionListener(e -> {
             try {
