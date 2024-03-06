@@ -1,4 +1,4 @@
-package imagePreProcessing;
+package Unused_SELF_MADE_Algorithm_For_imagePreProcessing;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorConvertOp;
 import java.awt.image.DataBufferByte;

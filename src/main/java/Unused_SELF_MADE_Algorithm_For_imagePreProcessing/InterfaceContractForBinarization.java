@@ -1,4 +1,4 @@
-package imagePreProcessing;
+package Unused_SELF_MADE_Algorithm_For_imagePreProcessing;
 
 import java.awt.image.BufferedImage;
 

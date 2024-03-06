@@ -1,4 +1,4 @@
-package imagePreProcessing;
+package Unused_SELF_MADE_Algorithm_For_imagePreProcessing;
 
 /**
  * Abstract class that extends GrayscaleBinarizer to apply a global threshold for image binarization.
