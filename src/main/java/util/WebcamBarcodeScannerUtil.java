@@ -3,10 +3,10 @@ package util;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamResolution;
 
-public class BarcodeScanner {
+public class WebcamBarcodeScannerUtil {
     private final Webcam webcam;
 
-    public BarcodeScanner() {
+    public WebcamBarcodeScannerUtil() {
         webcam = Webcam.getDefault();
         initializeWebcam();
     }

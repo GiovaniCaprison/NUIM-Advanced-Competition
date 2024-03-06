@@ -1,21 +1,20 @@
 package UI;
 
 import com.github.sarxos.webcam.WebcamPanel;
-import util.BarcodeScanner;
-import util.CaptureImage;
+import barcode.BarcodeDecodingLaunchPoint;
+import util.WebcamBarcodeScannerUtil;
 
 import javax.swing.*;
 import java.awt.*;
 
-// Robert Gontaru
 public class ScannerUI extends JFrame {
 
     private JPanel MainPanel;
     private JButton takePictureButton;
-    private final BarcodeScanner scanner;
+    private final WebcamBarcodeScannerUtil scanner;
 
     public ScannerUI() {
-        scanner = new BarcodeScanner();
+        scanner = new WebcamBarcodeScannerUtil();
         setupUI();
     }
 
@@ -43,7 +42,7 @@ public class ScannerUI extends JFrame {
 
         takePictureButton.addActionListener(e -> {
             try {
-                CaptureImage.captureImage(scanner);
+                new BarcodeDecodingLaunchPoint(scanner);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 // Consider better error handling
