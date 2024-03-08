@@ -1,4 +1,4 @@
-package api;
+package com.example.project.data_processing;
 import org.json.JSONObject;
 
 public class OpenFoodFactsDataExtractor {

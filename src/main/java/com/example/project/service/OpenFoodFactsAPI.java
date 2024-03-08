@@ -1,7 +1,7 @@
-package api;
+package com.example.project.service;
 
 import org.json.JSONObject;
-import util.HttpUtil;
+import com.example.project.util.HttpUtil;
 
 public class OpenFoodFactsAPI {
 
