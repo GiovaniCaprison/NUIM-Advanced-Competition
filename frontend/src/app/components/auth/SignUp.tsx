@@ -32,7 +32,7 @@ export default function SignUp() {
         const formData = new FormData(event.currentTarget);
 
         try {
-            const response = await fetch('http://localhost:3000/api/signup', {
+            const response = await fetch('http://localhost:8080/api/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,15 +42,15 @@ export default function SignUp() {
                     lastName: formData.get('lastName'),
                     email: formData.get('email'),
                     password: formData.get('password'),
-                    allowExtraEmails: formData.get('allowExtraEmails') === 'on', // Assuming it's a checkbox
+                    allowExtraEmails: formData.get('allowExtraEmails') === 'on',
                 }),
             });
 
             if (response.ok) {
-                // Signup successful, you can redirect the user or show a success message
                 console.log('Signup successful');
+                // Redirect to the sign-in page
+                window.location.href = '/SignIn';
             } else {
-                // Signup failed, handle error
                 console.error('Signup failed');
             }
         } catch (error) {

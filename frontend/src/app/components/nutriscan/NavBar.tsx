@@ -20,19 +20,19 @@ const NavBar: React.FC<NavBarProps> = ({ mode, toggleColorMode }) => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         NutriScan
                     </Typography>
-                    <Link href="/pages/profile" passHref>
+                    <Link href="/profile" passHref>
                         <Button color="inherit">Profile</Button>
                     </Link>
-                    <Link href="/pages/SetGoals" passHref>
+                    <Link href="/SetGoals" passHref>
                         <Button color="inherit">Set Goals</Button>
                     </Link>
-                    <Link href="/pages/FoodDiary" passHref>
+                    <Link href="/FoodDiary" passHref>
                         <Button color="inherit">Food Diary</Button>
                     </Link>
-                    <Link href="/pages/NutriBarcode" passHref>
+                    <Link href="/NutriBarcode" passHref>
                         <Button color="inherit">NutriBarcode</Button>
                     </Link>
-                    <Link href="/pages/UserSettings" passHref>
+                    <Link href="/UserSettings" passHref>
                         <Button color="inherit">User Settings</Button>
                     </Link>
                     {/* IconButton to toggle light/dark mode */}

@@ -21,7 +21,7 @@ public class MongoDBConfig extends AbstractMongoClientConfiguration {
     @Override
     public MongoClient mongoClient() {
         // Construct connection settings
-        String connectionString = "mongodb+srv://Uzi:<NutriScan1>@nutriscan.nyzvgbd.mongodb.net/?retryWrites=true&w=majority&appName=NUtriScan";
+        String connectionString = "mongodb+srv://Uzi:NutriScan1@nutriscan.nyzvgbd.mongodb.net/?retryWrites=true&w=majority&appName=NUtriScan";
         ConnectionString connString = new ConnectionString(connectionString);
 
         // Configure server API

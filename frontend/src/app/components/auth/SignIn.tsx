@@ -24,20 +24,40 @@ function Copyright(props: any) {
         </Typography>
     );
 }
-
 export default function SignIn() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const email = data.get('email');
+        const password = data.get('password');
+
+        try {
+            const response = await fetch('http://localhost:8080/api/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email, password}),
+            });
+
+            if (response.ok) {
+                // Authentication successful, redirect or show success message
+                console.log('Sign-in successful');
+                // Redirect to another page, e.g.:
+                window.location.href = '/NutriBarcode';
+            } else {
+                // Authentication failed, handle error
+                console.error('Sign-in failed');
+            }
+        } catch (error) {
+            console.error('Error occurred during sign-in:', error);
+        }
     };
 
+    // Return statement moved outside of handleSubmit function
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
+            <CssBaseline/>
             <Box
                 sx={{
                     marginTop: 8,
@@ -46,13 +66,13 @@ export default function SignIn() {
                     alignItems: 'center',
                 }}
             >
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                    <LockOutlinedIcon />
+                <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+                    <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
                     <TextField
                         margin="normal"
                         required
@@ -74,15 +94,15 @@ export default function SignIn() {
                         autoComplete="current-password"
                     />
                     <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
+                        control={<Checkbox value="remember" color="primary"/>}
                         label="Remember me"
                     />
                     <Button
                         type="submit"
                         fullWidth
-                        href = "/NutriBarcode"
+                        href="/NutriBarcode"
                         variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
+                        sx={{mt: 3, mb: 2}}
                     >
                         Sign In
                     </Button>
@@ -100,7 +120,7 @@ export default function SignIn() {
                     </Grid>
                 </Box>
             </Box>
-            <Copyright sx={{ mt: 8, mb: 4 }} />
+            <Copyright sx={{mt: 8, mb: 4}}/>
         </Container>
     );
 }

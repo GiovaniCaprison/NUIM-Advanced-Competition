@@ -1,23 +1,47 @@
-// pages/NutriBarcode.tsx
-import * as React from 'react';
+import React, { useRef, useEffect } from 'react';
+//import axios from 'axios'; // or use fetch
 
-import NavBar from '../nutriscan/NavBar';
+const BarcodeScan: React.FC = () => {
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-const NutriBarcode: React.FC = () => {
-    const [mode, setMode] = React.useState<'light' | 'dark'>('light');
-    const toggleColorMode = () => {
-        setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    useEffect(() => {
+
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+                if (videoRef.current) {
+                    videoRef.current.srcObject = stream;
+                }
+            });
+        }
+    }, []);
+
+    const handleSnap = () => {
+        if (canvasRef.current && videoRef.current) {
+            const context = canvasRef.current.getContext('2d');
+            if (context) {
+                context.drawImage(videoRef.current, 0, 0, 640, 480);
+                canvasRef.current.toBlob(() => {
+                    // Send the image blob to the server
+                    /*
+                    axios.post('/api/BarcodeDTO', blob, {
+                        headers: {
+                            'Content-Type': 'application/octet-stream'
+                        }
+                    });
+                    */
+                });
+            }
+        }
     };
 
     return (
         <div>
-            <NavBar mode={mode} toggleColorMode={toggleColorMode} />
-            <main>
-                <h1>NutriBarcode Page</h1>
-                {/*Your NutriBarcode page content*/ }
-            </main>
+            <video ref={videoRef} width="640" height="480" autoPlay></video>
+            <button onClick={handleSnap}>Snap Photo</button>
+            <canvas ref={canvasRef} width="640" height="480"></canvas>
         </div>
     );
 };
 
-export default NutriBarcode;
+export default BarcodeScan;
