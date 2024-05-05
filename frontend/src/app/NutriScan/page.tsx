@@ -23,7 +23,8 @@ export default function DashboardPage() {
   return (
     <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
       <CssBaseline />
-      <NavBar mode={mode} toggleColorMode={toggleColorMode} />
+        <NavBar mode={mode}
+                toggleColorMode={toggleColorMode}/>
       <DashboardHero />
       <Box sx={{ bgcolor: 'background.default' }}>
         <Divider />

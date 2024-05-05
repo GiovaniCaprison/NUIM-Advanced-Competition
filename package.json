@@ -1,0 +1,35 @@
+{
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@mui/material": "^5.15.15",
+    "@zxing/library": "^0.20.0",
+    "axios": "^1.6.8",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.6.0",
+    "mongoose": "^8.3.3",
+    "next": "^14.2.3",
+    "react": "^18.2.0",
+    "react-router-dom": "^6.23.0",
+    "react-webcam": "^7.2.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.2",
+    "@types/jest": "^29.5.12",
+    "@types/react-dom": "^18.2.24",
+    "@types/react-webcam": "^3.0.0"
+  },
+  "name": "nuim-advanced-competition",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

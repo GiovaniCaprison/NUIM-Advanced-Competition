@@ -27,14 +27,37 @@ function Copyright(props: any) {
 
 
 export default function SignUp() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const formData = new FormData(event.currentTarget);
+
+        try {
+            const response = await fetch('http://localhost:3000/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    firstName: formData.get('firstName'),
+                    lastName: formData.get('lastName'),
+                    email: formData.get('email'),
+                    password: formData.get('password'),
+                    allowExtraEmails: formData.get('allowExtraEmails') === 'on', // Assuming it's a checkbox
+                }),
+            });
+
+            if (response.ok) {
+                // Signup successful, you can redirect the user or show a success message
+                console.log('Signup successful');
+            } else {
+                // Signup failed, handle error
+                console.error('Signup failed');
+            }
+        } catch (error) {
+            console.error('Error occurred during signup:', error);
+        }
     };
+
 
     return (
         <Container component="main" maxWidth="xs">
