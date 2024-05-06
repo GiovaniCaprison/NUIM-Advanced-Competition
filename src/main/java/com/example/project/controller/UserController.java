@@ -1,6 +1,7 @@
 // src/main/java/com/example/project/controller/UserController.java
 package com.example.project.controller;
 
+import com.example.project.model.SignInRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.example.project.model.User;
 import com.example.project.service.UserService;
@@ -36,16 +37,16 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> signIn(@RequestBody User user) {
-        if (user.getEmail() == null || user.getPassword() == null) {
+    public ResponseEntity<?> signIn(@RequestBody SignInRequest signInRequest) {
+        if (signInRequest.getEmail() == null || signInRequest.getPassword() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email and Password are required");
         }
 
-        User foundUser = userService.findUserByEmail(user.getEmail());
+        User foundUser = userService.findUserByEmail(signInRequest.getEmail());
 
         if (foundUser == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        } else if (!passwordEncoder.matches(user.getPassword(), foundUser.getPassword())) {
+        } else if (!passwordEncoder.matches(signInRequest.getPassword(), foundUser.getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
 

@@ -30,6 +30,7 @@ export default function SignIn() {
         const data = new FormData(event.currentTarget);
         const email = data.get('email');
         const password = data.get('password');
+        const rememberMe = data.get('remember') === 'on'; // Get rememberMe value from form data
 
         try {
             const response = await fetch('http://localhost:8080/api/signin', {
@@ -37,14 +38,14 @@ export default function SignIn() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({email, password}),
+                body: JSON.stringify({email, password, rememberMe}), // Include rememberMe in request body
             });
 
             if (response.ok) {
                 // Authentication successful, redirect or show success message
                 console.log('Sign-in successful');
                 // Redirect to another page, e.g.:
-                window.location.href = '/NutriBarcode';
+                window.location.href = '/NutriScan';
             } else {
                 // Authentication failed, handle error
                 console.error('Sign-in failed');
@@ -100,7 +101,7 @@ export default function SignIn() {
                     <Button
                         type="submit"
                         fullWidth
-                        href="/NutriBarcode"
+
                         variant="contained"
                         sx={{mt: 3, mb: 2}}
                     >
