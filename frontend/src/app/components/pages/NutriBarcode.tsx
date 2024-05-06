@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import Webcam from 'react-webcam';
 import { BrowserMultiFormatReader } from '@zxing/library';
-import { sendBarcodeToBackend } from '../services/apiService'; // Import the service
+import {sendBarcodeToBackend, sendFoodDiaryToBackend} from '../services/apiService'; // Import the service
 import { alpha, Typography, Button, Box } from '@mui/material';
 
 const NutriBarcode = () => {
@@ -23,6 +23,15 @@ const NutriBarcode = () => {
                             .then((response) => {
                                 console.log('Barcode sent successfully', response);
                                 setLastSentBarcode(decodedBarcode); // Update last sent barcode
+
+                                // Send the food diary to the backend
+                                sendFoodDiaryToBackend({ barcode: decodedBarcode, response })
+                                    .then(() => {
+                                        console.log('Food diary sent successfully');
+                                    })
+                                    .catch((error: any) => {
+                                        console.error('Failed to send food diary', error);
+                                    });
                             })
                             .catch((error) => {
                                 console.error('Failed to send barcode', error);

@@ -1,10 +1,12 @@
 // src/main/java/com/example/project/controller/UserController.java
 package com.example.project.controller;
 
+import com.example.project.model.FoodDiary;
 import com.example.project.model.SignInRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.example.project.model.User;
 import com.example.project.service.UserService;
+import com.example.project.service.FoodDiaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FoodDiaryService foodDiaryService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -53,4 +58,17 @@ public class UserController {
         // Generate a token or session (implementation depends on your security setup)
         return ResponseEntity.ok("Sign-in successful");
     }
+
+    @PostMapping("/fooddiary")
+    public ResponseEntity<?> createFoodDiary(@RequestBody FoodDiary foodDiary) {
+        if(foodDiary.getFoodName() == null || foodDiary.getCalories() == 0){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Food name and calories are required");
+        }
+        foodDiaryService.createFoodDiary(foodDiary);
+        // Implementation details
+        return ResponseEntity.ok("Food Diary created successfully");
+    }
+
+
+
 }

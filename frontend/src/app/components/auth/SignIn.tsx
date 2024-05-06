@@ -38,7 +38,11 @@ export default function SignIn() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({email, password, rememberMe}), // Include rememberMe in request body
+                body: JSON.stringify({
+                    email: (email as string).toLowerCase(),
+                    password,
+                    rememberMe
+                }),
             });
 
             if (response.ok) {

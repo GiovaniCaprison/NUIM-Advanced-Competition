@@ -1,11 +1,15 @@
 // FoodDiary.tsx
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import { sendFoodDiaryEntryToBackend, fetchFoodDiaryEntries } from '../services/apiService';
 
 interface FoodEntry {
     id: number;
     name: string;
     calories: number;
 }
+
+
+
 
 const FoodDiary: React.FC = () => {
     const [entries, setEntries] = useState<FoodEntry[]>([]);
@@ -18,8 +22,22 @@ const FoodDiary: React.FC = () => {
             setEntries([...entries, newEntry]);
             setFoodName('');
             setCalories('');
+            sendFoodDiaryEntryToBackend({foodName, calories})
+                .then(r =>  console.log(r))
+                .catch(e => console.error(e));
+
         }
+
     };
+
+    useEffect(() => {
+        fetchFoodDiaryEntries()
+            .then((entries) => {
+                console.log(entries);
+                setEntries(entries);
+            })
+            .catch((error) => console.error(error));
+    }, []);
 
     const removeFoodEntry = (id: number) => {
         setEntries(entries.filter((entry) => entry.id !== id));

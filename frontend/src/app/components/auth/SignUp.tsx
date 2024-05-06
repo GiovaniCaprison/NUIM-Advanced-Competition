@@ -31,6 +31,17 @@ export default function SignUp() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
 
+        const firstName = formData.get('firstName');
+        const lastName = formData.get('lastName');
+        const email = formData.get('email');
+        const password = formData.get('password');
+        const allowExtraEmails = formData.get('allowExtraEmails') === 'on';
+
+        if (!firstName || !lastName || !email || !password) {
+            alert('All fields are required');
+            return;
+        }
+
         try {
             const response = await fetch('http://localhost:8080/api/signup', {
                 method: 'POST',
@@ -38,20 +49,26 @@ export default function SignUp() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    firstName: formData.get('firstName'),
-                    lastName: formData.get('lastName'),
-                    email: formData.get('email'),
-                    password: formData.get('password'),
+                    firstName,
+                    lastName,
+                    email: (email as string).toLowerCase(),
+                    password,
                     allowExtraEmails: formData.get('allowExtraEmails') === 'on',
                 }),
             });
 
             if (response.ok) {
-                console.log('Signup successful');
+                alert('Signup successful');
                 // Redirect to the sign-in page
                 window.location.href = '/SignIn';
             } else {
-                console.error('Signup failed');
+                const error = await response.json();
+                if (error === 'Email already in use') {
+                    alert('Email already in use');
+                    return;
+                } else {
+                    console.error('Signup failed');
+                }
             }
         } catch (error) {
             console.error('Error occurred during signup:', error);
