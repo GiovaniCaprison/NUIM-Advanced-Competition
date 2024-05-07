@@ -1,16 +1,13 @@
-// src/context/UserContext.tsx
 import React from 'react';
-import { useContext, createContext } from 'react';
 
-export const UserContext = createContext('user');
-
-export default function App() {
-    return (
-        <UserContext.Provider value={{  }}>
-        </UserContext.Provider>
-    );
+interface UserContextProps {
+    userEmail: string;
+    setUserInfo: (email: string) => void;
+    getUserInfo: () => string;
 }
 
-function User(){
-
-}
+export const UserContext = React.createContext<UserContextProps>({
+   userEmail: '',
+   setUserInfo: (email: string) => { },
+   getUserInfo: () => ''
+});

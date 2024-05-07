@@ -27,11 +27,12 @@ function Copyright(props: any) {
     );
 }
 export default function SignIn() {
-    const context = useContext(UserContext) || {userEmail: '', setUserInfo: (email: any) => {} , getUserInfo: () => ''};
+    const userContext = useContext(UserContext);
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const email = data.get('email');
+        console.log("absdfgsdfg " + email);
         const password = data.get('password');
         const rememberMe = data.get('remember') === 'on'; // Get rememberMe value from form data
 
@@ -52,8 +53,8 @@ export default function SignIn() {
                 // Authentication successful, redirect or show success message
                 console.log('Sign-in successful');
                 // Redirect to another page, e.g.:
-                context.setUserInfo(data.get('email') as string);
-                console.log(email);
+                userContext.setUserInfo(email as string);
+                console.log(userContext.userEmail)
                 window.location.href = '/NutriScan';
             } else {
                 // Authentication failed, handle error

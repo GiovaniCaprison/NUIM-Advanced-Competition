@@ -8,8 +8,8 @@ interface DashboardHeroProps {
     userName: string;
 }
 const DashboardHero: React.FC<DashboardHeroProps> = ({ userName }) => {
-    const context = useContext(UserContext) || {userEmail: '', setUserInfo: (email: any) => {} , getUserInfo: () => ''};
-    console.log("jiasd" + context.userEmail);
+    const userContext = useContext(UserContext);
+    console.log("jiasd" + userContext.userEmail);
     return (
         <Box
             id="hero"
