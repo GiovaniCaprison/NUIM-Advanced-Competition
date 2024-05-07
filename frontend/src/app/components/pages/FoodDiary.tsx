@@ -8,9 +8,6 @@ interface FoodEntry {
     calories: number;
 }
 
-
-
-
 const FoodDiary: React.FC = () => {
     const [entries, setEntries] = useState<FoodEntry[]>([]);
     const [foodName, setFoodName] = useState('');
@@ -43,6 +40,8 @@ const FoodDiary: React.FC = () => {
         setEntries(entries.filter((entry) => entry.id !== id));
     };
 
+    // @ts-ignore
+    // @ts-ignore
     return (
         <div>
             <h1>Food Diary</h1>
@@ -63,8 +62,9 @@ const FoodDiary: React.FC = () => {
             </div>
             <ul>
                 {entries.map((entry) => (
+
                     <li key={entry.id}>
-                        {entry.name} - {entry.calories} kcal
+                        {entry.foodName} - {entry.calories} kcal
                         <button onClick={() => removeFoodEntry(entry.id)}>Remove</button>
                     </li>
                 ))}

@@ -1,14 +1,16 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import {useRef, useState, useEffect, useCallback, useContext} from 'react';
 import Webcam from 'react-webcam';
 import { BrowserMultiFormatReader } from '@zxing/library';
-import {sendBarcodeToBackend, sendFoodDiaryToBackend} from '../services/apiService'; // Import the service
+import {sendBarcodeEntryToBackend, sendBarcodeToBackend} from '../services/apiService'; // Import the service
 import { alpha, Typography, Button, Box } from '@mui/material';
+import { UserContext } from '@/context/UserContext';
 
 const NutriBarcode = () => {
     const webcamRef = useRef<Webcam>(null);
     const [barcode, setBarcode] = useState<string>('');
     const [lastSentBarcode, setLastSentBarcode] = useState<string>('');
-    const [isScanning, setIsScanning] = useState<boolean>(false); // Add this line
+    const [isScanning, setIsScanning] = useState<boolean>(false);
+    const context = useContext(UserContext); // Declare context here
 
     const capture = useCallback(() => {
         if (webcamRef.current) {
@@ -23,14 +25,15 @@ const NutriBarcode = () => {
                             .then((response) => {
                                 console.log('Barcode sent successfully', response);
                                 setLastSentBarcode(decodedBarcode); // Update last sent barcode
-
-                                // Send the food diary to the backend
-                                sendFoodDiaryToBackend({ barcode: decodedBarcode, response })
+                                // Use context here
+                                sendBarcodeEntryToBackend({ barcode: decodedBarcode, response, userEmail: context.userEmail })
                                     .then(() => {
                                         console.log('Food diary sent successfully');
+                                        console.log('poopoo' + context.userEmail);
                                     })
                                     .catch((error: any) => {
                                         console.error('Failed to send food diary', error);
+                                        console.log("jiasd" + context.userEmail);
                                     });
                             })
                             .catch((error) => {
@@ -42,7 +45,7 @@ const NutriBarcode = () => {
                 });
             }
         }
-    }, [lastSentBarcode]);
+    }, [lastSentBarcode, context]);
 
     useEffect(() => {
         if (isScanning) { // Add this line

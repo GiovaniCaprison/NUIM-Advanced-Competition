@@ -1,8 +1,15 @@
 import * as React from 'react';
 import { alpha, Typography, Button } from '@mui/material';
 import Box from '@mui/material/Box';
+import { useContext } from 'react'
+import { UserContext } from '@/context/UserContext';
 
-export default function DashboardHero() {
+interface DashboardHeroProps {
+    userName: string;
+}
+const DashboardHero: React.FC<DashboardHeroProps> = ({ userName }) => {
+    const context = useContext(UserContext) || {userEmail: '', setUserInfo: (email: any) => {} , getUserInfo: () => ''};
+    console.log("jiasd" + context.userEmail);
     return (
         <Box
             id="hero"
@@ -24,14 +31,15 @@ export default function DashboardHero() {
             })}
         >
             <Typography variant="h2" gutterBottom>
-                Welcome to NutriScan!
+                {userName}, Welcome to NutriScan!
             </Typography>
             <Typography variant="h5" gutterBottom>
                 Your personalized nutrition assistant.
             </Typography>
-            <Button variant="contained" color="primary" size="large">
+            <Button variant="contained" color="primary" size="large" href = "/NutriBarcode">
                 Get Started
             </Button>
         </Box>
     );
-}
+};
+export default DashboardHero;

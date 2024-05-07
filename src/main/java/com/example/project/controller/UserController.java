@@ -30,6 +30,14 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email and Password are required");
         }
 
+        // Convert email to lowercase
+        user.setEmail(user.getEmail().toLowerCase());
+
+        // Check if a user with the same email already exists
+        if (userService.existsByEmail(user.getEmail())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists");
+        }
+
         // Hash the password before storing
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -47,7 +55,10 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email and Password are required");
         }
 
-        User foundUser = userService.findUserByEmail(signInRequest.getEmail());
+        // Convert email to lowercase
+        String email = signInRequest.getEmail().toLowerCase();
+
+        User foundUser = userService.findUserByEmail(email);
 
         if (foundUser == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");

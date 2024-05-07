@@ -39,9 +39,7 @@ const NavBar: React.FC<NavBarProps> = ({ mode, toggleColorMode }) => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         NutriScan
                     </Typography>
-                    <Link href="/profile" passHref>
-                        <Button color="inherit" sx={{ color: mode === 'light' ? 'black' : '#55A6F6' }}>Profile</Button>
-                    </Link>
+                    
                     <Link href="/SetGoals" passHref>
                         <Button color="inherit" sx={{ color: mode === 'light' ? 'black' : '#55A6F6' }}>Set Goals</Button>
                     </Link>

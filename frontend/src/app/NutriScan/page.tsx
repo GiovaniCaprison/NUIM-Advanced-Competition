@@ -3,6 +3,7 @@ import * as React from 'react';
 import Footer from "@/app/components/common/Footer";
 import DashboardHero from "@/app/components/nutriscan/DashboardHero";
 import NavBar from "@/app/components/nutriscan/NavBar";
+
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { PaletteMode } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -25,7 +26,7 @@ export default function DashboardPage() {
       <CssBaseline />
         <NavBar mode={mode}
                 toggleColorMode={toggleColorMode}/>
-      <DashboardHero />
+      <DashboardHero  userName={""}/>
       <Box sx={{ bgcolor: 'background.default' }}>
         <Divider />
         <Footer />

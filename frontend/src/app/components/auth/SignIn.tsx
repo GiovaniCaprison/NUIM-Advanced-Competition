@@ -11,6 +11,8 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useContext } from 'react';
+import { UserContext } from '@/context/UserContext';
 
 function Copyright(props: any) {
     return (
@@ -25,6 +27,7 @@ function Copyright(props: any) {
     );
 }
 export default function SignIn() {
+    const context = useContext(UserContext) || {userEmail: '', setUserInfo: (email: any) => {} , getUserInfo: () => ''};
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -49,6 +52,8 @@ export default function SignIn() {
                 // Authentication successful, redirect or show success message
                 console.log('Sign-in successful');
                 // Redirect to another page, e.g.:
+                context.setUserInfo(data.get('email') as string);
+                console.log(email);
                 window.location.href = '/NutriScan';
             } else {
                 // Authentication failed, handle error
