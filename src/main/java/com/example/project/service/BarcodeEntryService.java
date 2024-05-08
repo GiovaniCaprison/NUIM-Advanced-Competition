@@ -10,7 +10,9 @@ public class BarcodeEntryService {
     @Autowired
     private BarcodeRepository barcodeRepository;
 
-    public Barcode createBarcodeEntry(Barcode barcode, String userEmail) {
+    public Barcode createBarcodeEntry(Barcode barcode) {
         return barcodeRepository.save(barcode);
     }
+
+    public Barcode getBarcodeEntries() { return (Barcode) barcodeRepository.findAll(); }
 }

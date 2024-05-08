@@ -52,7 +52,7 @@ export default function SignIn() {
                 // Authentication successful, redirect or show success message
                 console.log('Sign-in successful');
                 // Redirect to another page, e.g.:
-                context.setUserInfo(data.get('email') as string);
+                //context.setUserInfo(data.get('email') as string);
                 console.log(email);
                 window.location.href = '/NutriScan';
             } else {

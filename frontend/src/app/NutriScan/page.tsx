@@ -26,7 +26,7 @@ export default function DashboardPage() {
       <CssBaseline />
         <NavBar mode={mode}
                 toggleColorMode={toggleColorMode}/>
-      <DashboardHero  userName={""}/>
+        <DashboardHero />
       <Box sx={{ bgcolor: 'background.default' }}>
         <Divider />
         <Footer />

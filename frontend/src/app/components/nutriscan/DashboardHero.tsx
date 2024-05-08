@@ -8,8 +8,8 @@ interface DashboardHeroProps {
     userName: string;
 }
 const DashboardHero: React.FC<DashboardHeroProps> = ({ userName }) => {
-    const context = useContext(UserContext) || {userEmail: '', setUserInfo: (email: any) => {} , getUserInfo: () => ''};
-    console.log("jiasd" + context.userEmail);
+    //const context = useContext(UserContext) || {userEmail: '', setUserInfo: (email: any) => {} , getUserInfo: () => ''};
+
     return (
         <Box
             id="hero"
@@ -31,7 +31,7 @@ const DashboardHero: React.FC<DashboardHeroProps> = ({ userName }) => {
             })}
         >
             <Typography variant="h2" gutterBottom>
-                {userName}, Welcome to NutriScan!
+               Welcome to NutriScan!
             </Typography>
             <Typography variant="h5" gutterBottom>
                 Your personalized nutrition assistant.

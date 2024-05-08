@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class BarcodeEntryController {
@@ -15,12 +17,15 @@ public class BarcodeEntryController {
     private BarcodeEntryService barcodeEntryService;
 
     @PostMapping("/barcodeEntry")
-    public ResponseEntity<?> createBarcodeEntry(@RequestBody Barcode barcodeEntry, @RequestParam String userEmail) {
+    public ResponseEntity<?> createBarcodeEntry(@RequestBody Barcode barcodeEntry) {
         try {
-            barcodeEntryService.createBarcodeEntry(barcodeEntry, userEmail);
-            return ResponseEntity.status(HttpStatus.CREATED).body("FoodDiary created successfully");
+            barcodeEntryService.createBarcodeEntry(barcodeEntry);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Barcode Diary created successfully");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating FoodDiary: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating Barcode Diary: " + e.getMessage());
         }
     }
+
+    @GetMapping("/barcodeEntry")
+    public List<BarcodeEntryService> getAllBarcodeEntries() { return (List<BarcodeEntryService>) barcodeEntryService; }
 }

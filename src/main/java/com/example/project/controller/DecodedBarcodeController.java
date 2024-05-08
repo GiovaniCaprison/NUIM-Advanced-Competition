@@ -19,5 +19,6 @@ public class DecodedBarcodeController {
     public ResponseEntity<?> handleBarcode(@RequestBody BarcodeDTO barcodeDTO) {
         return ResponseEntity.ok(serviceLaunchPoint.processBarcode(barcodeDTO.getBarcode()));
     }
+
 }
 

@@ -67,14 +67,14 @@ export const fetchFoodDiaryEntries = async () => {
         throw error; // Rethrow to handle it in the calling component
     }
 };
-export const sendBarcodeEntryToBackend = async (foodDiary: { barcode: string, response: any , userEmail: any}) => {
+export const sendBarcodeEntryToBackend = async (barcodeEntry: { response: any; barcode: any }) => {
     try {
         const response = await fetch(`${BASE_URL}/api/barcodeEntry`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(foodDiary),
+            body: JSON.stringify(barcodeEntry),
         });
 
         if (!response.ok) {
@@ -84,7 +84,30 @@ export const sendBarcodeEntryToBackend = async (foodDiary: { barcode: string, re
             return await response.json();
         }
     } catch (error) {
-        console.error('Error sending food diary to backend:', error);
+        console.error('Error sending barcode diary to backend:', error);
+        throw error; // Rethrow to handle it in the calling component
+    }
+};
+export const fetchBarcodeEntries = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/barcodeEntry`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+
+        });
+
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        else {
+            return await response.json();
+        }
+    } catch (error) {
+        console.error('Error fetching barcode diary entries:', error);
         throw error; // Rethrow to handle it in the calling component
     }
 };
