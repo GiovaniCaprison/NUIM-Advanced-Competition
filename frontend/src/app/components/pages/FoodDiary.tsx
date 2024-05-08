@@ -1,7 +1,7 @@
-// FoodDiary.tsx
 import React, {useEffect, useState} from 'react';
 import {sendFoodDiaryEntryToBackend, fetchFoodDiaryEntries, fetchBarcodeEntries} from '../services/apiService';
-import { alpha, Box,} from '@mui/material';
+import { Collapse, List, ListItem, ListItemText, Box, Grid } from '@mui/material';
+import { alpha, useTheme } from '@mui/material/styles';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -16,9 +16,16 @@ interface FoodEntry {
 
 interface BarcodeEntry {
     productName: string;
+    BrandName: string;
     protein: number;
     carbs: number;
     calories: number;
+    response: {
+        ProductName: string;
+        'Vitamin B3 (Niacin) (mg per 1g)': number;
+        'Vitamin B6 (mg per 1g)': number;
+        // Add all other properties that you want to display
+    };
 }
 
 const FoodDiary: React.FC = () => {
@@ -32,7 +39,11 @@ const FoodDiary: React.FC = () => {
 
     const [foodName, setFoodName] = useState('');
     const [calories, setCalories] = useState<number | ''>('');
+    const [open, setOpen] = useState<number | null>(null);
 
+    const handleClick = (index: number) => {
+        setOpen(open === index ? null : index);
+    };
     const theme = createTheme({
         palette: {
             mode: 'dark', // Change this to 'light' if you want a light theme
@@ -50,20 +61,32 @@ const FoodDiary: React.FC = () => {
 
         }
     };
-
+    const fetchAndLogData = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/api/getBarcodeEntry'); // replace 'your-endpoint' with the actual endpoint
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
     useEffect(() => {
-        fetchFoodDiaryEntries()
-            .then((entries) => {
-                console.log(entries);
-                setEntries(entries);
-            })
-            .catch((error) => console.error(error));
-        fetchBarcodeEntries()
-            .then((itemEntries) => {
-                console.log(entries);
-                setEntries(entries);
-            })
-    },
+            fetchFoodDiaryEntries()
+                .then((entries) => {
+                    console.log(entries);
+                    setEntries(entries); // Set the food diary entries to the state
+                })
+                .catch((error) => console.error(error));
+            fetchBarcodeEntries()
+                .then((itemEntries) => {
+                    console.log(itemEntries); // Log the barcode entries
+                    setItemEntries(itemEntries); // Set the barcode entries to the state
+                })
+                .catch((error) => console.error(error));
+        },
         []);
 
 
@@ -105,46 +128,69 @@ const FoodDiary: React.FC = () => {
                     <ArrowBackIosIcon />
                 </IconButton>
 
-                <div>
-                    <h1>Food Diary</h1>
-                    <div>
-                        <input
-                            type="text"
-                            value={foodName}
-                            onChange={(e) => setFoodName(e.target.value)}
-                            placeholder="Food Name"
-                        />
-                        <input
-                            type="number"
-                            value={calories}
-                            onChange={(e) => setCalories(Number(e.target.value))}
-                            placeholder="Calories"
-                        />
-                        <button onClick={addFoodEntry}>Add Entry</button>
-                    </div>
-                    <ul>
-                        {entries.map((entry) => (
 
-                            <li key={entry.id}>
-                                {entry.foodName} - {entry.calories} kcal
-                                <button onClick={() => removeFoodEntry(entry.id)}>Remove</button>
-                            </li>
-                        ))}
-                    </ul>
-                    <ul>
-                        {itemEntries.map((entry) => (
+                    <Grid container spacing={2} style={{ marginTop: '100px' }}>
+                        <Grid item xs={6}>
+                            <button onClick={fetchAndLogData}>Fetch and Log Data</button>
+                            <h1>Food Diary</h1>
+                            <div>
+                                <input
+                                    type="text"
+                                    value={foodName}
+                                    onChange={(e) => setFoodName(e.target.value)}
+                                    placeholder="Food Name"
+                                />
+                                <input
+                                    type="number"
+                                    value={calories}
+                                    onChange={(e) => setCalories(Number(e.target.value))}
+                                    placeholder="Calories"
+                                />
+                                <button onClick={addFoodEntry}>Add Entry</button>
+                            </div>
+                            <h2>Food Diary Entries</h2>
+                            <ul>
+                                {entries.map((entry) => (
+                                    <li key={entry.id}>
+                                        {entry.foodName} - {entry.calories} kcal
+                                        <button onClick={() => removeFoodEntry(entry.id)}>Remove</button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <h2>Barcode Entries</h2>
+                            <List>
+                                {itemEntries.map((entry, index) => (
+                                    <div key={index}>
+                                        <ListItem button onClick={() => handleClick(index)}>
+                                            <ListItemText primary={entry.response.ProductName} secondary={`${entry.calories} kcal`} />
+                                        </ListItem>
+                                        <Collapse in={open === index} timeout="auto" unmountOnExit>
+                                            <List component="div" disablePadding>
+                                                <ListItem>
+                                                    <ListItemText primary={entry.response.BrandName} />
+                                                </ListItem>
+                                                <ListItem>
+                                                    <ListItemText primary={`•Vitamin B3 (Niacin): ${entry.response['Vitamin B3 (Niacin) (mg per 1g)']}`} />
+                                                </ListItem>
+                                                <ListItem>
+                                                    <ListItemText primary={`•Vitamin B6: ${entry.response['Vitamin B6 (mg per 1g)']}`} />
+                                                </ListItem>
+                                                {/* Add all other properties that you want to display */}
+                                            </List>
+                                        </Collapse>
+                                    </div>
+                                ))}
+                            </List>
+                        </Grid>
+                    </Grid>
 
-                            <li key={entry.id}>
-                                {entry.itemName} - {entry.calories} kcal
-                                <button onClick={() => removeFoodEntry(entry.id)}>Remove</button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+
 
             </Box>
+
         </ThemeProvider>
     );
 };
-
 export default FoodDiary;

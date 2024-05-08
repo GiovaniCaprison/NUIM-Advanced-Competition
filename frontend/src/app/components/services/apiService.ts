@@ -67,7 +67,7 @@ export const fetchFoodDiaryEntries = async () => {
         throw error; // Rethrow to handle it in the calling component
     }
 };
-export const sendBarcodeEntryToBackend = async (barcodeEntry: { response: any; barcode: any }) => {
+export const sendBarcodeEntryToBackend = async (barcodeEntry: { response: any; barcode: string }) => {
     try {
         const response = await fetch(`${BASE_URL}/api/barcodeEntry`, {
             method: 'POST',
@@ -90,7 +90,7 @@ export const sendBarcodeEntryToBackend = async (barcodeEntry: { response: any; b
 };
 export const fetchBarcodeEntries = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/api/barcodeEntry`, {
+        const response = await fetch(`${BASE_URL}/api/getBarcodeEntry`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -5,6 +5,8 @@ import com.example.project.repository.BarcodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BarcodeEntryService {
     @Autowired
@@ -14,5 +16,5 @@ public class BarcodeEntryService {
         return barcodeRepository.save(barcode);
     }
 
-    public Barcode getBarcodeEntries() { return (Barcode) barcodeRepository.findAll(); }
+    public List<Barcode> getBarcodeEntries() { return barcodeRepository.findAll(); }
 }

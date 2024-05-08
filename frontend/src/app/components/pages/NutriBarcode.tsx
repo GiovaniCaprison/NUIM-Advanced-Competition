@@ -81,7 +81,9 @@ const NutriBarcode = () => {
             });
 
             if (response.ok) {
+
                 const data = await response.json();
+                sendBarcodeEntryToBackend({ barcode: barcode, response: data})
                 console.log('Received data:', data);
                 setBarcode(barcode); // Set the barcode
                 setTimeout(() => setBarcode(''), 10000); // Clear the barcode after 10 seconds
@@ -95,92 +97,92 @@ const NutriBarcode = () => {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-        <Box
-            id="hero"
-            sx={(theme) => ({
-                width: '100%',
-                display: 'flex', // Center the content
-                alignItems: 'center', // Center vertically
-                justifyContent: 'center', // Center horizontally
-                flexDirection: 'column', // Stack items vertically
-                textAlign: 'center', // Center text horizontally
-                padding: theme.spacing(4), // Add padding
-                backgroundImage:
-                    theme.palette.mode === 'light'
-                        ? 'linear-gradient(180deg, #CEE5FD, #FFF)'
-                        : `linear-gradient(#02294F, ${alpha('#090E10', 0.0)})`,
-                backgroundSize: '100% 20%',
-                backgroundRepeat: 'no-repeat',
-                height: '100vh', // Fill the viewport height
-            })}
-        >
-            <IconButton
-                color="inherit"
-                href="/NutriScan" // replace with your desired href
-                aria-label="Go back"
-                sx={{ position: 'absolute', top: 10, left: 10 }}
+            <Box
+                id="hero"
+                sx={(theme) => ({
+                    width: '100%',
+                    display: 'flex', // Center the content
+                    alignItems: 'center', // Center vertically
+                    justifyContent: 'center', // Center horizontally
+                    flexDirection: 'column', // Stack items vertically
+                    textAlign: 'center', // Center text horizontally
+                    padding: theme.spacing(4), // Add padding
+                    backgroundImage:
+                        theme.palette.mode === 'light'
+                            ? 'linear-gradient(180deg, #CEE5FD, #FFF)'
+                            : `linear-gradient(#02294F, ${alpha('#090E10', 0.0)})`,
+                    backgroundSize: '100% 20%',
+                    backgroundRepeat: 'no-repeat',
+                    height: '100vh', // Fill the viewport height
+                })}
             >
-            <ArrowBackIosIcon />
-        </IconButton>
-            <Typography variant="h2" gutterBottom>
-                Scan your food!
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-                Point your camera at the barcode.
-            </Typography>
-            {isScanning && !manualEntry && (
-                <Webcam
-                    audio={false}
-                    ref={webcamRef}
-                    screenshotFormat="image/jpeg"
-                    videoConstraints={{
-                        facingMode: "environment"
-                    }}
-                />
-            )}
-            {manualEntry && !isScanning && (
-                <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
+                <IconButton
+                    color="inherit"
+                    href="/NutriScan" // replace with your desired href
+                    aria-label="Go back"
+                    sx={{ position: 'absolute', top: 10, left: 10 }}
                 >
-                    <TextField
-                        margin="normal"
-                        required
-                        id="barcode"
-                        label="Enter Barcode"
-                        name="barcode"
-                        autoFocus
-                        value={barcode}
-                        onChange={(e) => setBarcode(e.target.value)}
-                        sx={{ width: '100%' }} // Adjust this value to change the width of the TextField
+                    <ArrowBackIosIcon />
+                </IconButton>
+                <Typography variant="h2" gutterBottom>
+                    Scan your food!
+                </Typography>
+                <Typography variant="h5" gutterBottom>
+                    Point your camera at the barcode.
+                </Typography>
+                {isScanning && !manualEntry && (
+                    <Webcam
+                        audio={false}
+                        ref={webcamRef}
+                        screenshotFormat="image/jpeg"
+                        videoConstraints={{
+                            facingMode: "environment"
+                        }}
                     />
-                </Box>
-            )}
-            {barcode && <p>Barcode Detected: {barcode}</p>}
-            <Button variant="contained" color="primary" size="large" onClick={() => {
-                setIsScanning(!isScanning);
-                if (manualEntry) {
-                    setManualEntry(false);
-                }
-            }}>
-                {isScanning ? 'Stop Scanning' : 'Start Scanning'}
-            </Button>
-            <Box sx={{ margin: 1 }} /> {/* This will add a gap between the buttons */}
-            <Button
-                variant="contained"
-                style={{backgroundColor: 'white', color: 'black'}}
-                size="large"
-                onClick={manualEntry ? handleManualSubmit : () => {
-                    setManualEntry(!manualEntry);
-                    if (isScanning) {
-                        setIsScanning(false);
+                )}
+                {manualEntry && !isScanning && (
+                    <Box
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        <TextField
+                            margin="normal"
+                            required
+                            id="barcode"
+                            label="Enter Barcode"
+                            name="barcode"
+                            autoFocus
+                            value={barcode}
+                            onChange={(e) => setBarcode(e.target.value)}
+                            sx={{ width: '100%' }} // Adjust this value to change the width of the TextField
+                        />
+                    </Box>
+                )}
+                {barcode && <p>Barcode Detected: {barcode}</p>}
+                <Button variant="contained" color="primary" size="large" onClick={() => {
+                    setIsScanning(!isScanning);
+                    if (manualEntry) {
+                        setManualEntry(false);
                     }
-                }}
-            >
-                {manualEntry ? 'Submit' : 'Enter Manually'}
-            </Button>
-        </Box>
+                }}>
+                    {isScanning ? 'Stop Scanning' : 'Start Scanning'}
+                </Button>
+                <Box sx={{ margin: 1 }} /> {/* This will add a gap between the buttons */}
+                <Button
+                    variant="contained"
+                    style={{backgroundColor: 'white', color: 'black'}}
+                    size="large"
+                    onClick={manualEntry ? handleManualSubmit : () => {
+                        setManualEntry(!manualEntry);
+                        if (isScanning) {
+                            setIsScanning(false);
+                        }
+                    }}
+                >
+                    {manualEntry ? 'Submit' : 'Enter Manually'}
+                </Button>
+            </Box>
         </ThemeProvider>
     );
 };

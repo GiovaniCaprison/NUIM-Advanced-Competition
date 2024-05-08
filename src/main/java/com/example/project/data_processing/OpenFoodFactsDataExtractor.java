@@ -13,7 +13,7 @@ public class OpenFoodFactsDataExtractor {
             try {
                 // Product details
                 String productName = product.optString("product_name", "Unknown product name");
-                result.put("Product Name", productName);
+                result.put("ProductName", productName);
 
                 String brand = product.optString("brands", "Unknown brand");
                 result.put("Brand", brand);
@@ -23,13 +23,13 @@ public class OpenFoodFactsDataExtractor {
                     JSONObject nutriments = product.getJSONObject("nutriments");
 
                     double energy = nutriments.optDouble("energy_100g", -1) / 100;
-                    result.put("Energy (kcal per 1g)", energy);
+                    result.put("Energy", energy);
 
                     double protein = nutriments.optDouble("proteins_100g", -1) / 100;
-                    result.put("Protein (g per 1g)", protein);
+                    result.put("Protein", protein);
 
                     double carbs = nutriments.optDouble("carbohydrates_100g", -1) / 100;
-                    result.put("Carbs (g per 1g)", carbs);
+                    result.put("Carbs", carbs);
 
                     double fats = nutriments.optDouble("fat_100g", -1) / 100;
                     result.put("Fats (g per 1g)", fats);
@@ -116,6 +116,5 @@ public class OpenFoodFactsDataExtractor {
         return result;
     }
 }
-
 
 

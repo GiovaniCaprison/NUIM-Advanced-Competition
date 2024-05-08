@@ -26,6 +26,7 @@ public class BarcodeEntryController {
         }
     }
 
-    @GetMapping("/barcodeEntry")
-    public List<BarcodeEntryService> getAllBarcodeEntries() { return (List<BarcodeEntryService>) barcodeEntryService; }
+    @GetMapping("/getBarcodeEntry")
+    public List<Barcode> getAllBarcodeEntries() { return barcodeEntryService.getBarcodeEntries(); }
 }
+
