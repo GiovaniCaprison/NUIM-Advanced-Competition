@@ -6,7 +6,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import IconButton from "@mui/material/IconButton";
-import NutriBarcode from './NutriBarcode'; // Import NutriBarcode
 
 interface FoodEntry {
     id: number;
@@ -16,12 +15,18 @@ interface FoodEntry {
 
 interface BarcodeEntry {
     productName: string;
-    BrandName: string;
+    brand: string;
     protein: number;
     carbs: number;
-    calories: number;
+    Energy: number;
+    fat: number;
     response: {
         ProductName: string;
+        Energy: number;
+        Brand: string;
+        Carbs: number;
+        Protein: number;
+        'Fats (g per 1g)': number;
         'Vitamin B3 (Niacin) (mg per 1g)': number;
         'Vitamin B6 (mg per 1g)': number;
         // Add all other properties that you want to display
@@ -164,18 +169,21 @@ const FoodDiary: React.FC = () => {
                                 {itemEntries.map((entry, index) => (
                                     <div key={index}>
                                         <ListItem button onClick={() => handleClick(index)}>
-                                            <ListItemText primary={entry.response.ProductName} secondary={`${entry.calories} kcal`} />
+                                            <ListItemText primary={entry.response.ProductName} secondary={`${((entry.response.Energy *100)/5).toFixed(1)} calories per 100g`} />
                                         </ListItem>
                                         <Collapse in={open === index} timeout="auto" unmountOnExit>
                                             <List component="div" disablePadding>
                                                 <ListItem>
-                                                    <ListItemText primary={entry.response.BrandName} />
+                                                    <ListItemText primary={`Brand: ${entry.response.Brand}.`} />
                                                 </ListItem>
                                                 <ListItem>
-                                                    <ListItemText primary={`•Vitamin B3 (Niacin): ${entry.response['Vitamin B3 (Niacin) (mg per 1g)']}`} />
+                                                    <ListItemText primary={`Carbs: ${((entry.response.Carbs) * 100).toFixed(1)}g per 100g`} />
                                                 </ListItem>
                                                 <ListItem>
-                                                    <ListItemText primary={`•Vitamin B6: ${entry.response['Vitamin B6 (mg per 1g)']}`} />
+                                                    <ListItemText primary={`Protein: ${((entry.response.Protein) * 100).toFixed(1)}g per 100g`} />
+                                                </ListItem>
+                                                <ListItem>
+                                                    <ListItemText primary={`Fat: ${((entry.response['Fats (g per 1g)']) * 100).toFixed(1)}g per 100g`} />
                                                 </ListItem>
                                                 {/* Add all other properties that you want to display */}
                                             </List>
